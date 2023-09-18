@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="exemple.mp3"
+Content-Type: audio/mpeg
+
+< ./exemple.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# @name create-transcriptions
+POST http://localhost:3333/videos/2b76f6ea-d4c3-4f27-b4fb-ce4f30bad5f5/transcription
+Content-Type: application/json
+
+{
+    "prompt": "airplane"
+}
+
+###
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+    "videoId": "2b76f6ea-d4c3-4f27-b4fb-ce4f30bad5f5",
+    "template": "Gere um resumo sucinto da transcrição a seguir: '''{transcription}'''",
+    "temperature": 0.5
+}
